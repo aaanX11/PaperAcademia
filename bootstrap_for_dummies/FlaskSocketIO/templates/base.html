@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css"
+          href="{{ url_for('static', filename='css/flask.css')}}">
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/socket.io.min.js') }}"></script>
+    <script type="text/javascript" charset="utf-8">
+        var sio = io.connect(location.protocol + '//' + document.domain + ":"  +location.port + namespace);
+         $('a.remote').on('click', function (clk) {
+                    sio.emit('main', {href: clk.currentTarget.href});
+                    return false;
+                });
+
+    </script>
+    <title>{{ page }}</title>
+</head>
+<body>
+<header>
+    {% for k,v in links.items() %}
+        <span class="top-menu-item"}>
+            <a href="{{ v.href }}" class="top-menu-link" id={{ k }}>{{ v.text }}</a>
+        </span>
+    {% endfor %}
+</header>
+
+</body>
+</html>

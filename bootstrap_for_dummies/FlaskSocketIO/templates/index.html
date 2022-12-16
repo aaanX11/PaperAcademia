@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css"
+          href="{{ url_for('static', filename='css/flask.css')}}">
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/socket.io.min.js') }}"></script>
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(
+            function (){
+                namespace='/flask';
+                var sio = io.connect(location.protocol + '//' + document.domain + ":"  +location.port + namespace);
+                sio.on('square', function (msg){
+                    console.log(msg)
+                    $(".square").css("background-color",
+                        "rgb(" + msg.red + ", " + msg.green + ", " + msg.blue +")");
+                });
+
+                sio.on('screen', function (clk){
+                    window.location.href = clk.href;
+                });
+
+            });
+    </script>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+</head>
+<body>
+<header>
+    {% for k,v in links.items() %}
+        <span class="top-menu-item"}>
+            <a href="{{ v.href }}" class="top-menu-link" id={{ k }}>{{ v.text }}</a>
+        </span>
+    {% endfor %}
+    <h1>Flask Socket Test</h1>
+</header>
+<div class="container">
+    <div class="square"></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        {% block head %}
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        {% block styles %}
+            <!-- Bootstrap CSS -->
+            {{ bootstrap.load_css() }}
+        {% endblock %}
+
+        <title>Your page title</title>
+        {% endblock %}
+    </head>
+    <body>
+        <!-- top nav -->
+        <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <a class="navbar-brand" href="{{ url_for('index')}}">IUM for beginers</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">About</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ url_for('create') }}">New Note</a>
+           </li>
+            </ul>
+        </div>
+    </nav>
+          <div class="container">
+        <div class="flask-flash">
+        {% for message in get_flashed_messages() %}
+            <div class="alert alert-danger">{{ message }}</div>
+        {% endfor %}
+
+        </div>
+        <div class="row">
+            <div class="col flask-left-menu">
+                {% block left_menu %}
+                <span>Left menu not overwritten</span>
+                {% endblock %}
+                {% block left_local_menu %}
+                <span>Local menu not overwirtten</span>
+                {% endblock %}
+            </div><!-- end left col-->
+            <div class="col-6">
+                <main>
+                    {% block content %} {% endblock %}
+                </main>
+            </div>
+            <div class="col flask-right">
+                {% block right_menu %}
+                {% endblock %}
+            </div>
+        </div>
+
+    </div>
+    <!-- End .container-->
+    <footer class="jumbotron text-center" style="margin-bottom:0">
+        {% block flask_footer %}
+        <p> Footer block not overwritten!</p>
+        {%  endblock %}
+    </footer>
+
+
+        {% block scripts %}
+            <!-- Optional JavaScript -->
+            {{ bootstrap.load_js() }}
+        {% endblock %}
+    </body>
+</html>

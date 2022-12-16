@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block content%}
+
+
+<div class="article-container">
+    <div class="roww roww-title">
+            {{ article_obj.title }}
+        </div>
+    <div class="roww roww-authors-tags">
+        <div class="roww art-year">
+            <p>{{ article_obj.year }} </p>
+        </div>
+        <div class="roww roww-art-authors">
+            {% for author_name in article_obj.author_names %}
+            <a href="{{ url_for('routes.articles', author=author_name) }}">{{ author_name }}</a>
+            {% endfor %}
+        </div>
+        <div class="roww roww art-topics">
+            {% for topic in article_obj.topics %}
+            <a href="{{ url_for('routes.articles', topic=topic) }}">{{ topic }}</a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="roww roww-text">
+        <p>Abstract</p>
+        <div class="roww textt" >
+            {{ article_obj.abstract }}
+        </div>
+    </div>
+    <div class="roww ref-cit">
+        <div class="roww citation" >
+            <p> Cited: {{ article_obj.n_citation }} </p>
+        </div>
+        <div class="roww references" >
+            {% for ref in article_obj.references %}
+            <a href="{{ url_for('routes.one_article', _id=ref) }}">{{ ref }}</a>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="like" id="{{ article_obj._id }}">
+
+    </div>
+
+</div>
+
+</div>
+{% endblock %}
+
+{% block custom_scripts %}
+<script src="{{ url_for('static', filename='js/socket.io.min.js') }}"></script>
+<script>
+    console.log("here we are");
+    var hostpath = "http://127.0.0.1:5000";
+
+    var path_2_heart_on="url(" + hostpath+"{{ url_for('static', filename='bin/heart_on.png') }})";
+    var path_2_heart_off="url(" + hostpath+"{{ url_for('static', filename='bin/heart_off.png') }})";
+    var paths = {1: path_2_heart_on, 0: path_2_heart_off};
+    console.log(paths);
+    var article_obj1 = {{ article_obj|safe }};
+
+    console.log(article_obj1);
+    let sel = "#" + article_obj1._id;
+    $(sel).css('background-image', paths[article_obj1.liked]);
+
+    var user_id = {{ user_id|safe }};
+    console.log(article_obj1);
+
+</script>
+<script src="{{url_for('static', filename='/js/article.js')}}"></script>
+{% endblock %}

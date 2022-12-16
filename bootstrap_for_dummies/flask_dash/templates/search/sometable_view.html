@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% block content%}
+
+<!-- article .id  .title .author .text .year-->
+
+<div class="table-container">
+
+    <div class="row">
+    <div class="col-md-2 art-title">
+        <p>Title</p>
+    </div>
+    <div class="col-md-6 art-topics">
+        <p>Topics</p>
+    </div>
+    <div class="col-md-2 art-authors">
+        <p>Authors</p>
+    </div>
+    <div class="col-md-1 art-year">
+        <p>Year</p>
+    </div>
+    <div class="col-md-1">
+
+    </div>
+</div>
+{% for article in article_list %}
+
+<div class="row">
+    <div class="col-md-2 art-title">
+        <a href="{{ url_for('routes.one_article', art_id=article._id) }}">{{ article.title }}</a>
+    </div>
+    <div class="col-md-6 art-topics">
+        {% for topic in article.topics %}
+        <a href="{{ url_for('routes.articles', topic=topic) }}">{{ topic }}</a>
+        {% endfor %}
+    </div>
+    <div class="col-md-2 art-author">
+        {% for author_name in article.author_names %}
+        <a href="{{ url_for('routes.articles', author=author_name) }}">{{ author_name }}</a>
+        {% endfor %}
+    </div>
+    <div class="col-md-1 art-year">
+        <p> {{ article.year }} </p>
+    </div>
+    <!--<div class="col-md-1 like" id="{{ article._id }}">
+    </div> -->
+    <!--
+    <div class="col-md-1" id="{{ article._id }}" style="background-image:
+    {{ url_for('static', filename='bin/heart_off.png') }};">
+    </div>-->
+    <div class="col-md-1 like" id="{{ article._id }}">
+    <!--<img class="like" src="{{ url_for('static', filename='bin/heart_off.png') }}"/>-->
+    </div>
+
+</div>
+{% endfor %}
+</div>
+{% endblock %}
+
+{% block custom_scripts %}
+<script src="{{ url_for('static', filename='js/socket.io.min.js') }}"></script>
+<script>
+    console.log("here we are");
+    var hostpath = "http://127.0.0.1:5000";
+
+    var path_2_heart_on="url(" + hostpath+"{{ url_for('static', filename='bin/heart_on.png') }})";
+    var path_2_heart_off="url(" + hostpath+"{{ url_for('static', filename='bin/heart_off.png') }})";
+    var paths = {1: path_2_heart_on, 0: path_2_heart_off};
+    console.log(paths);
+    var articles_list1 = {{ article_list|safe }};
+    articles_list1.forEach((article1, i) => {
+        console.log(article1);
+        let sel = "#" + article1._id;
+        $(sel).css('background-image', paths[article1.liked]);
+    });
+    var user_id = {{ user_id|safe }};
+    console.log(articles_list1);
+
+</script>
+<script src="{{url_for('static', filename='/js/articles.js')}}"></script>
+{% endblock %}

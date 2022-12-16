@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css"
+          href="{{ url_for('static', filename='css/flask.css')}}">
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/socket.io.min.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function (){
+            namespace = '/flask'
+            var sio = io.connect(location.protocol + '//' + document.domain + ":"  +location.port + namespace)
+
+            $("input.sync-slider").on('input', function (){
+                sio.emit('colors', {'color': $(this).attr('id'), 'value': $(this).val()})
+                return false
+            });
+
+            sio.on('update_sliders', function (msg){
+                $("input#"+msg.color).val(msg.value)
+            });
+
+            $('a.remote').on('click', function (clk) {
+                sio.emit('main', {href: clk.currentTarget.href});
+                return false;
+            });
+        });
+        $
+    </script>
+    <meta charset="UTF-8">
+    <title>Remote</title>
+</head>
+<body>
+<header>
+    {% for k,v in links.items() %}
+        <span class="top-menu-item"}>
+            <a href="{{ v.href }}" class="top-menu-link" id={{ k }}>{{ v.text }}</a>
+        </span>
+    {% endfor %}
+</header>
+  <div class="container">
+    <div class="square">
+        <form>
+            {% for k,v in colors.items() %}
+                <input id="{{ k }}" class="sync-slider" type="range" value="{{ v }}" min="0" max="255" >
+                {% if not loop.last%}
+                    <br>
+                {% endif %}
+            {% endfor%}
+        </form>
+    </div>
+  </div>
+</body>
+</html>

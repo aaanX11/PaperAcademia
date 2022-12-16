@@ -1,0 +1,120 @@
+{% import 'util.html' as util %}
+{% import 'page_wrappers.html' as wrap %}
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    {% block head %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="BS4+flask Dash based">
+
+
+    <title>{%block title %} Dash and ML {% endblock%}</title>
+
+    {% block styles %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/app.css') }}">
+    {{ bootstrap.load_css() }}
+    {% endblock %}
+
+    <!-- backup bs4 from cdn -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!--font source -->
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+    <link rel="preload" href="/static/bin/vk_sans_display_regular-webfont.woff" as="font" type="font/woff2" crossorigin="">
+
+    {% endblock head %}
+</head>
+
+<body>
+    <div class="page-wrapper chiller-theme toggled">
+
+        <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
+            <i class="fas fa-bars"></i>
+        </a>
+        <!--show/collapse sidebar triiger-->
+
+        <nav id="sidebar" class="sidebar-wrapper">
+            <div class="sidebar-content">
+                <div class="sidebar-brand">
+                    <a href="#">Menu </a>
+                    <div id="close-sidebar">
+                        <i class="fas fa-times"></i>
+                    </div>
+                </div>
+                {{ util.userspace(g.user) }}
+                <!--macro for userspace-->
+                <!--{{ util.search_container("")}}-->
+                <!-- sidebar-search  -->
+                {{ util.sidebar_mainmenu()}}
+                <!-- sidebar-menu  -->
+
+            </div>
+            <!-- sidebar-content  -->
+            {{ util.page_footer() }}
+            <!--sidebar footer-->
+
+        </nav>
+        <!-- sidebar-wrapper  -->
+
+
+    <main class="page-content">
+            
+            <div class="container-fluid">
+                <header class="flask-header">
+                    {% block header %}
+                     <h2> Articles Data </h2>
+                     {% endblock %}
+                    <hr>
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <!--<p> Local header</p>-->
+                        </div>
+                    </div>
+                </header>
+
+
+                <div class="flask-flash col-md-12">
+                    {% for message in get_flashed_messages() %}
+                        <div class="alert alert-danger">{{ message }}</div>
+                    {% endfor %}
+                </div>
+                <!-- /flask flash-->
+
+                <div class="form-group col-md-12">
+                    {% block content %}
+                    {% endblock %}
+                </div>
+                <!-- /content-->
+
+
+                <!-- /add_content-->
+            </div>
+
+    </main>
+   
+    <!-- page-content" -->
+
+
+    </div><!-- end .page-wrapper-->
+
+
+
+    <!-- Optional JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+    </script>
+    <script>console.log('here we are base')</script>
+    <script src="{{url_for('static', filename='js/sidebar.js')}}"></script>
+    <script src="{{url_for('static', filename='js/app.js')}}"></script>
+    {{ bootstrap.load_js() }}
+    {% block custom_scripts %}
+    {% endblock %}
+
+</body>

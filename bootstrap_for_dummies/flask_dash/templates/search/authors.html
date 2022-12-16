@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content%}
+
+<!-- name | sum(n_citation) | years active-->
+
+<div class="table-container">
+
+    <div class="row">
+    <div class="col-md-6 auth-name">
+        <p>Name</p>
+    </div>
+    <div class="col-md-1 auth-cited">
+        <p>Cited</p>
+    </div>
+    <div class="col-md-2 auth-years">
+        <p>Years</p>
+    </div>
+
+</div>
+{% for author in authors_list %}
+
+<div class="row">
+    <div class="col-md-6 auth-name">
+        <a href="{{ url_for('routes.articles', author=author.name) }}">{{ author.name }}</a>
+    </div>
+    <div class="col-md-1 auth-cited">
+        <p> {{ author.citations }}</p>
+    </div>
+    <div class="col-md-2 auth-years">
+        <p> {{ author.years }} </p>
+    </div>
+
+</div>
+{% endfor %}
+</div>
+{% endblock %}
+
+{% block custom_scripts %}
+<script src="{{ url_for('static', filename='js/socket.io.min.js') }}"></script>
+
+{% endblock %}

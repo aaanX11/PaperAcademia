@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Authors' graph{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <div class="cytoscape-container" id="cytograph1" >
+
+  </div>
+{% endblock %}
+
+{% block custom_scripts %}
+
+<!--<script src="{{ url_for('static', filename='js/socket.io.min.js') }}"></script>-->
+<script src="{{ url_for('static', filename='js/cytoscape.min.js') }}"></script>
+
+<script>
+  console.log('here we are graph')
+  var cy;
+  var element_list = {{ elmnt_list|safe }};
+</script>
+
+<script src="{{ url_for('static', filename='js/authors_graph.js') }}"></script>
+{% endblock %}

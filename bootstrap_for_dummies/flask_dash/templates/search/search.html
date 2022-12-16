@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Search{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<div class="">
+  <form method="post">
+
+    <label class="year_l" for="year">Year</label>
+    <input class="year_f" name="year" id="year">
+
+    <label class="auth_l" for="author">Author</label>
+    <input class="auth_f" name="author" id="author">
+    <hr>
+    <label class="topic_l" for="topic">Topic</label>
+    <input class="topic_f" name="topic" id="topic">
+
+    <input class="submit" type="submit" value="Search">
+  </form>
+</div>
+{% endblock %}

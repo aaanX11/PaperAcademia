@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}
+Dash Сводная таблица количество статей по годам.
+{% endblock %}
+{% block header %}
+<h2>
+        Dash Сводная таблица количество статей по годам.
+</h2>
+{% endblock %}
+{% block content%}
+<div>
+        <iframe id="inlineFrameExample"
+    title="Inline Frame Example"
+    width="100%"
+    height="768px"
+    src="{{ url_for('/dashapp/') }}">
+</iframe>
+</div>
+{% endblock %}
